@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Runner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="runner-body">
+  <header class="runner-header">Task In Progress</header>
+
+  <div class="runner-box">
+    <div class="runner-content">
+      <div id="runnerTaskDetails" class="runner-details">
+        <h2 id="runnerTaskName">Task Name</h2>
+        <p>Status: Not Started</p>
+        <p>Priority: High</p>
+        <p>Due Date: --</p>
+        <p>Duration: 0s</p>
+      </div>
+      <div class="runner-timer" id="runnerTimer">00:00:00</div>
+    </div>
+
+    <div class="runner-buttons">
+      <button id="pauseBtn" class="btn">Pause</button>
+      <button id="skipBtn" class="btn">Skip</button>
+      <button id="completeBtn" class="btn">Complete</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

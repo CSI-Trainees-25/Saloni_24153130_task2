@@ -4,11 +4,7 @@
     --border: #c7c7c7;
   }
   
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   
   body {
     font-family: "Segoe UI", Arial, sans-serif;
@@ -17,7 +13,7 @@
     padding: 1rem;
   }
   
- 
+  /* Dashboard Header */
   .header {
     background: var(--purple);
     color: #fff;
@@ -28,114 +24,143 @@
     align-items: center;
     flex-wrap: wrap;
   }
-  .logo {
-    font-size: 1.5rem;
-  }
-  .plus {
-    background: #fff;
-    color: var(--purple);
-    border-radius: 50%;
-    padding: 0 0.4rem;
-    margin-left: 0.4rem;
-  }
-  .stats span {
-    margin-left: 1rem;
-  }
+  .logo { font-size: 1.5rem; }
+  .plus { background:#fff; color:var(--purple); border-radius:50%; padding:0 0.4rem; margin-left:0.4rem; cursor:pointer; }
+  .stats span { margin-left:1rem; }
   
- 
-  .container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
+  .container { display:grid; grid-template-columns:2fr 1fr; gap:1.5rem; margin-top:1.5rem; }
   
- 
   .tasks {
-    border: 1px solid var(--purple);
-    border-radius: 12px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    border:1px solid var(--purple);
+    border-radius:12px;
+    padding:1rem;
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
   }
   
-
   .add-task {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem;
-    background: #fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:1rem;
+    background:#fff;
   }
-  .add-task input,
-  .add-task select {
-    width: 100%;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-  }
-  .add-task .row {
-    display: flex;
-    gap: 0.5rem;
-  }
-  .btn {
-    background: var(--purple);
-    color: #fff;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  .btn.small {
-    margin-top: 0.5rem;
-    padding: 0.4rem 0.8rem;
-  }
+  .add-task input, .add-task select { width:100%; padding:0.5rem; margin:0.5rem 0; }
+  .add-task .row { display:flex; gap:0.5rem; }
   
- 
-  .task-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem;
-  }
-  .task-card h3 {
-    margin-bottom: 0.5rem;
-  }
-  .row {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .date {
-    font-size: 0.9rem;
-    color: #555;
-  }
+  .btn { background:var(--purple); color:#fff; border:none; padding:0.6rem 1.2rem; border-radius:6px; cursor:pointer; }
+  .btn.small { margin-top:0.5rem; padding:0.4rem 0.8rem; }
   
+  .task-card, .do-card {
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:1rem;
+  }
+  .task-card h3, .do-card h3 { margin-bottom:0.5rem; }
+  .row { display:flex; gap:0.5rem; margin-bottom:0.5rem; }
+  .date { font-size:0.9rem; color:#555; }
   
   .do-now {
-    border: 1px solid var(--purple);
-    border-radius: 12px;
-    padding: 1rem;
-    background: #fff;
+    border:1px solid var(--purple);
+    border-radius:12px;
+    padding:1rem;
+    background:#fff;
   }
-  .do-header {
+  .do-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+  
+  .hidden{ display:none; }
+  .break-timer { font-size:1rem; color:var(--purple); text-align:center; }
+  
+  @media(max-width:900px){ .container{ grid-template-columns:1fr; } .stats{ margin-top:0.5rem; } }
+  
+  /* Runner Page */
+  .runner-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg);
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #333;
+  }
+  
+  .runner-header {
+    background: var(--purple);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 100%;
+  }
+  
+  /* Box - full width border */
+  .runner-box {
+    width: 100%;
+    border: 3px solid var(--purple);
+    border-radius: 0;
+    background: #fff;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-sizing: border-box;
+    margin-top: 1rem;
+  }
+  
+  /* Flex layout: left details + center timer */
+  .runner-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    gap: 2rem;
   }
-  .do-card {
-    border: 1px solid var(--border);
+  
+  /* Task details (left) */
+  .runner-details {
+    flex: 1;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .runner-details h2 {
+    margin: 0 0 0.5rem 0;
+    color: var(--purple);
+  }
+  
+  /* Timer (center) */
+  .runner-timer {
+    flex: 1;
+    text-align: center;
+    background: var(--purple);
+    color: #fff;
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+  }
+  
+  /* Buttons */
+  .runner-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .runner-buttons .btn {
+    flex: 1;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
     border-radius: 8px;
-    padding: 1rem;
+    cursor: pointer;
+    transition: 0.3s ease;
   }
   
-  
-  @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
-    .stats {
-      margin-top: 0.5rem;
-    }
+  .runner-buttons .btn:hover {
+    background: #5e11aa;
   }
-  

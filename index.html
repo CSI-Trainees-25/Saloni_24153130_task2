@@ -1,102 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Dashboard</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header class="header">
-      <h1 class="logo">Task <span class="plus">+</span></h1>
-      <div class="stats">
-        <span>4 Task</span>
-        <span>2 In progress</span>
-        <span>2 Done</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <h1 class="logo">Task <span class="plus" id="toggle-form">+</span></h1>
+    <div class="stats">
+      <span>0 Task</span>
+      <span>0 In progress</span>
+      <span>0 Done</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="tasks">
+      <div class="add-task hidden">
+        <input type="text" placeholder="Task name" />
+        <div class="row">
+          <select>
+            <option>Not Started</option>
+            <option>In Progress</option>
+            <option>Done</option>
+          </select>
+          <select>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+        <label>
+          <input type="date" />
+        </label>
+        <label>
+          Task Duration (seconds):
+          <input type="number" min="1" placeholder="Enter task time" />
+        </label>
+        <button class="btn">Create</button>
       </div>
-    </header>
+    </section>
 
-    <main class="container">
-      <section class="tasks">
-        <div class="add-task">
-          <input type="text" placeholder="Task name" />
-          <div class="row">
-            <select>
-              <option>In Progress</option>
-              <option>Not Started</option>
-              <option>Done</option>
-            </select>
-            <select>
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-            </select>
-          </div>
-          <label>
-            <input type="date" />
-          </label>
-          <button class="btn">Create</button>
-        </div>
+    <aside class="do-now">
+      <div class="do-header">
+        <h2>Do Now</h2>
+        <span>0/0</span>
+      </div>
+    </aside>
+  </main>
 
-        <div class="task-card">
-          <h3>La lapel</h3>
-          <div class="row">
-            <select>
-              <option>In Progress</option>
-              <option>Not Started</option>
-              <option>Done</option>
-            </select>
-            <select>
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-            </select>
-          </div>
-          <p class="date">Due Date: 16/05/2025</p>
-        </div>
-
-        <div class="task-card">
-          <h3>La lapel</h3>
-          <div class="row">
-            <select>
-              <option>Not Started</option>
-              <option>In Progress</option>
-              <option>Done</option>
-            </select>
-            <select>
-              <option>Medium</option>
-              <option>Low</option>
-              <option>High</option>
-            </select>
-          </div>
-          <p class="date">Due Date: 16/05/2025</p>
-          <button class="btn small">Move to Do Now →</button>
-        </div>
-      </section>
-
-      <aside class="do-now">
-        <div class="do-header">
-          <h2>Do Now</h2>
-          <span>4/5</span>
-        </div>
-        <div class="do-card">
-          <h3>Blockchain</h3>
-          <div class="row">
-            <select>
-              <option>Not Started</option>
-              <option>In Progress</option>
-              <option>Done</option>
-            </select>
-            <select>
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
-            </select>
-          </div>
-          <p class="date">Due Date: 16/05/2025</p>
-          <button class="btn">Set Timer</button>
-        </div>
-      </aside>
-    </main>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
