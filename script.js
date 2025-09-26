@@ -1,13 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    // ===== COMMON =====
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   
     function saveTasks() {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   
-    // ===== INDEX PAGE =====
     const taskContainer = document.querySelector(".tasks");
     const doNowContainer = document.querySelector(".do-now");
     const stats = document.querySelector(".stats");
@@ -199,14 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   
-    // ===== INDEX PAGE INIT =====
     if (taskContainer && doNowContainer) {
       initDragDrop(taskContainer);
       initDragDrop(doNowContainer);
       renderTasks();
     }
   
-    // ===== RUNNER PAGE =====
     const runnerTaskName = document.getElementById("runnerTaskName");
     const runnerTimer = document.getElementById("runnerTimer");
     const pauseBtn = document.getElementById("pauseBtn");
@@ -238,16 +233,33 @@ document.addEventListener("DOMContentLoaded", () => {
         ).padStart(2, "0")}`;
       }
   
+     
       function updateRunnerUI() {
+       
         runnerTaskName.textContent = onBreak ? "Break Time!" : currentTask.name;
-        runnerTaskDetails.innerHTML = onBreak
-          ? `<p>Relax for 10 seconds before next task...</p>`
-          : `
-            <p>Status: ${currentTask.status}</p>
-            <p>Priority: ${currentTask.priority}</p>
-            <p>Due Date: ${currentTask.dueDate}</p>
-            <p>Duration: ${currentTask.duration}s</p>
-          `;
+      
+        
+        runnerTaskDetails.querySelectorAll("p").forEach(p => p.remove());
+      
+        if (onBreak) {
+          const p = document.createElement("p");
+          p.textContent = "Relax for 10 seconds before next task...";
+          runnerTaskDetails.appendChild(p);
+        } else {
+          const props = [
+            `Status: ${currentTask.status}`,
+            `Priority: ${currentTask.priority}`,
+            `Due Date: ${currentTask.dueDate}`,
+            `Duration: ${currentTask.duration}s`
+          ];
+          props.forEach(text => {
+            const p = document.createElement("p");
+            p.textContent = text;
+            runnerTaskDetails.appendChild(p);
+          });
+        }
+      
+        
         runnerTimer.textContent = formatTime(timeLeft);
       }
   
@@ -322,7 +334,6 @@ document.addEventListener("DOMContentLoaded", () => {
       startTimer();
     }
   
-    // ===== SUMMARY PAGE =====
     const summaryContainer = document.getElementById("summary-container");
     if (summaryContainer) {
       const doneTasks = tasks.filter((t) => t.status === "Done");
