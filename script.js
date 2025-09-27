@@ -100,6 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
         doCard.classList.add("do-card");
         doCard.dataset.id = task.id;
         doCard.setAttribute("draggable", true);
+        
+        
+
         doCard.innerHTML = `
           <h3>${task.name}</h3>
           <div class="row">
@@ -120,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="btn remove-btn small">Remove</button>
         `;
         doCard.querySelector(".timer-btn").addEventListener("click", () => {
-          const queue = tasks.filter((t) => t.doNow);
+          const queue = tasks.filter((t) => t.doNow && t.status !=="Done" );
           localStorage.setItem("runnerQueue", JSON.stringify(queue));
           localStorage.setItem("runnerIndex", "0");
           window.location.href = "runner.html";
@@ -138,8 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateStats();
   }
-
-  
   function initDragDrop(container) {
     container.addEventListener("dragover", (e) => {
       e.preventDefault();
