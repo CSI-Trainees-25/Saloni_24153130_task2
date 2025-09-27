@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     doNowContainer.querySelectorAll(".do-card").forEach((el) => el.remove());
 
     tasks.forEach((task, index) => {
-      // Task Card
+       
       const card = document.createElement("div");
       card.classList.add("task-card");
       card.dataset.id = task.id;
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.addEventListener("dragend", () => card.classList.remove("dragging"));
       taskContainer.appendChild(card);
 
-      // Do Now Card
+     
       if (task.doNow) {
         const doCard = document.createElement("div");
         doCard.classList.add("do-card");
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStats();
   }
 
-  // Drag & Drop Init
+  
   function initDragDrop(container) {
     container.addEventListener("dragover", (e) => {
       e.preventDefault();
@@ -171,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Create Task
   if (createBtn) {
     createBtn.addEventListener("click", () => {
       const name = taskInput.value.trim();
@@ -188,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       tasks.push({
-        id: Date.now().toString(), // unique id
+        id: Date.now().toString(), 
         name,
         status,
         priority,
@@ -212,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTasks();
   }
 
-  // Runner Page
+  
   const runnerTaskName = document.getElementById("runnerTaskName");
   const runnerTimer = document.getElementById("runnerTimer");
   const pauseBtn = document.getElementById("pauseBtn");
@@ -340,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startTimer();
   }
 
-  // Summary Page
+  
   const summaryContainer = document.getElementById("summary-container");
   if (summaryContainer) {
     const doneTasks = tasks.filter((t) => t.status === "Done");
