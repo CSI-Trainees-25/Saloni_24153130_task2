@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusSelect = document.querySelector(".add-task select:first-of-type");
   const prioritySelect = document.querySelector(".add-task select:last-of-type");
   const dateInput = document.querySelector(".add-task input[type='date']");
+  if(dateInput){
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.setAttribute("min",today);
+  }
   const durationInput = document.querySelector(".add-task input[type='number']");
   const addTaskForm = document.querySelector(".add-task");
   const toggleFormBtn = document.getElementById("toggle-form");
