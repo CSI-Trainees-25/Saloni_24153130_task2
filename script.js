@@ -13,13 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusSelect = document.querySelector(".add-task select:first-of-type");
   const prioritySelect = document.querySelector(".add-task select:last-of-type");
   const dateInput = document.querySelector(".add-task input[type='date']");
-  if(dateInput){
-    const today = new Date().toISOString().split("T")[0];
-    dateInput.setAttribute("min",today);
-  }
   const durationInput = document.querySelector(".add-task input[type='number']");
   const addTaskForm = document.querySelector(".add-task");
   const toggleFormBtn = document.getElementById("toggle-form");
+
+  if (dateInput) {
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.setAttribute("min", today);
+  }
 
   if (toggleFormBtn) {
     toggleFormBtn.addEventListener("click", () =>
@@ -41,72 +42,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderTasks() {
     if (!taskContainer || !doNowContainer) return;
+
     taskContainer.querySelectorAll(".task-card").forEach((el) => el.remove());
     doNowContainer.querySelectorAll(".do-card").forEach((el) => el.remove());
 
-    tasks.forEach((task, index) => {
-       
-      const card = document.createElement("div");
-      card.classList.add("task-card");
-      card.dataset.id = task.id;
-      card.setAttribute("draggable", true);
-      card.innerHTML = `
-        <h3>${task.name}</h3>
-        <div class="row">
-          <select>
-            <option ${task.status === "Not Started" ? "selected" : ""}>Not Started</option>
-            <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option>
-            <option ${task.status === "Done" ? "selected" : ""}>Done</option>
-          </select>
-          <select>
-            <option ${task.priority === "Low" ? "selected" : ""}>Low</option>
-            <option ${task.priority === "Medium" ? "selected" : ""}>Medium</option>
-            <option ${task.priority === "High" ? "selected" : ""}>High</option>
-          </select>
-        </div>
-        <p class="date">Due Date: ${task.dueDate}</p>
-        <p>Duration: ${task.duration}s</p>
-        ${!task.doNow ? `<button class="btn small">Move to Do Now →</button>` : ""}
-        <button class="btn small remove-btn">Remove</button>
-      `;
+    tasks.forEach((task) => {
+      if (!task.doNow) {
+        const card = document.createElement("div");
+        card.classList.add("task-card");
+        card.dataset.id = task.id;
+        card.setAttribute("draggable", true);
+        card.innerHTML = `
+          <h3>${task.name}</h3>
+          <div class="row">
+            <select>
+              <option ${task.status === "Not Started" ? "selected" : ""}>Not Started</option>
+              <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option>
+              <option ${task.status === "Done" ? "selected" : ""}>Done</option>
+            </select>
+            <select>
+              <option ${task.priority === "Low" ? "selected" : ""}>Low</option>
+              <option ${task.priority === "Medium" ? "selected" : ""}>Medium</option>
+              <option ${task.priority === "High" ? "selected" : ""}>High</option>
+            </select>
+          </div>
+          <p class="date">Due Date: ${task.dueDate}</p>
+          <p>Duration: ${task.duration}s</p>
+          <button class="btn small">Move to Do Now →</button>
+          <button class="btn small remove-btn">Remove</button>
+        `;
 
-      card.querySelector("select:first-of-type").addEventListener("change", (e) => {
-        task.status = e.target.value;
-        saveTasks();
-        updateStats();
-      });
+        card.querySelector("select:first-of-type").addEventListener("change", (e) => {
+          task.status = e.target.value;
+          saveTasks();
+          updateStats();
+        });
 
-      card.querySelector("select:last-of-type").addEventListener("change", (e) => {
-        task.priority = e.target.value;
-        saveTasks();
-      });
+        card.querySelector("select:last-of-type").addEventListener("change", (e) => {
+          task.priority = e.target.value;
+          saveTasks();
+        });
 
-      card.querySelector(".remove-btn").addEventListener("click", () => {
-        tasks = tasks.filter(t => t.id !== task.id);
-        saveTasks();
-        renderTasks();
-      });
+        card.querySelector(".remove-btn").addEventListener("click", () => {
+          tasks = tasks.filter(t => t.id !== task.id);
+          saveTasks();
+          renderTasks();
+        });
 
-      if (!task.doNow)
         card.querySelector("button")?.addEventListener("click", () => {
           task.doNow = true;
           saveTasks();
           renderTasks();
         });
 
-      card.addEventListener("dragstart", () => card.classList.add("dragging"));
-      card.addEventListener("dragend", () => card.classList.remove("dragging"));
-      taskContainer.appendChild(card);
+        card.addEventListener("dragstart", () => card.classList.add("dragging"));
+        card.addEventListener("dragend", () => card.classList.remove("dragging"));
 
-     
+        taskContainer.appendChild(card);
+      }
+
       if (task.doNow) {
         const doCard = document.createElement("div");
         doCard.classList.add("do-card");
         doCard.dataset.id = task.id;
         doCard.setAttribute("draggable", true);
-        
-        
-
         doCard.innerHTML = `
           <h3>${task.name}</h3>
           <div class="row">
@@ -126,56 +125,83 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="btn timer-btn">Start Task</button>
           <button class="btn remove-btn small">Remove</button>
         `;
+
+        doCard.querySelector("select:first-of-type").addEventListener("change", (e) => {
+          task.status = e.target.value;
+          saveTasks();
+          updateStats();
+        });
+
+        doCard.querySelector("select:last-of-type").addEventListener("change", (e) => {
+          task.priority = e.target.value;
+          saveTasks();
+        });
+
         doCard.querySelector(".timer-btn").addEventListener("click", () => {
-          const queue = tasks.filter((t) => t.doNow && t.status !=="Done" );
+          const queue = tasks.filter(t => t.doNow && t.status !== "Done");
           localStorage.setItem("runnerQueue", JSON.stringify(queue));
           localStorage.setItem("runnerIndex", "0");
           window.location.href = "runner.html";
         });
+
         doCard.querySelector(".remove-btn").addEventListener("click", () => {
           tasks = tasks.filter(t => t.id !== task.id);
           saveTasks();
           renderTasks();
         });
+
         doCard.addEventListener("dragstart", () => doCard.classList.add("dragging"));
         doCard.addEventListener("dragend", () => doCard.classList.remove("dragging"));
-        doNowContainer.appendChild(doCard);
+
+        if (!doNowContainer.querySelector(`.do-card[data-id='${task.id}']`)) {
+          doNowContainer.appendChild(doCard);
+        }
       }
     });
 
     updateStats();
   }
-  function initDragDrop(container) {
-    container.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      const dragging = document.querySelector(".dragging");
-      if (!dragging) return;
-      const afterElement = [...container.querySelectorAll(".task-card:not(.dragging), .do-card:not(.dragging)")]
-        .reduce(
-          (closest, child) => {
+
+  // ---------- Fixed Drag & Drop ----------
+  function initDragDrop(containers) {
+    containers.forEach(container => {
+      container.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const dragging = document.querySelector(".dragging");
+        if (!dragging) return;
+
+        const afterElement = [...container.querySelectorAll(".task-card:not(.dragging), .do-card:not(.dragging)")]
+          .reduce((closest, child) => {
             const box = child.getBoundingClientRect();
             const offset = e.clientY - box.top - box.height / 2;
             if (offset < 0 && offset > closest.offset) return { offset, element: child };
             return closest;
-          },
-          { offset: Number.NEGATIVE_INFINITY }
-        ).element;
-      if (!afterElement) container.appendChild(dragging);
-      else container.insertBefore(dragging, afterElement);
-    });
+          }, { offset: Number.NEGATIVE_INFINITY }).element;
 
-    container.addEventListener("drop", () => {
-      const newTasks = [];
-      [...taskContainer.querySelectorAll(".task-card"), ...doNowContainer.querySelectorAll(".do-card")].forEach(card => {
-        const task = tasks.find(t => t.id === card.dataset.id);
-        if (task && !newTasks.includes(task)) newTasks.push(task);
+        if (!afterElement) container.appendChild(dragging);
+        else container.insertBefore(dragging, afterElement);
       });
-      tasks = newTasks;
-      saveTasks();
-      renderTasks();
+
+      container.addEventListener("drop", () => {
+        [...taskContainer.querySelectorAll(".task-card"), ...doNowContainer.querySelectorAll(".do-card")].forEach(card => {
+          const task = tasks.find(t => t.id === card.dataset.id);
+          if (task) {
+            // Update doNow based on container
+            task.doNow = card.closest(".do-now") !== null;
+          }
+        });
+        saveTasks();
+        renderTasks();
+      });
     });
   }
 
+  if (taskContainer && doNowContainer) {
+    initDragDrop([taskContainer, doNowContainer]);
+    renderTasks();
+  }
+
+  // ---------- Create Task ----------
   if (createBtn) {
     createBtn.addEventListener("click", () => {
       const name = taskInput.value.trim();
@@ -183,16 +209,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const priority = prioritySelect.value;
       const dueDate = dateInput.value || "No due date";
       const duration = parseInt(durationInput.value);
-      if (!name) {
-        alert("Please enter task name.");
-        return;
-      }
-      if (!duration || duration <= 0) {
-        alert("Enter valid duration.");
-        return;
-      }
+      if (!name) return alert("Please enter task name.");
+      if (!duration || duration <= 0) return alert("Enter valid duration.");
+
       tasks.push({
-        id: Date.now().toString(), 
+        id: Date.now().toString(),
         name,
         status,
         priority,
@@ -201,6 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
         doNow: false,
         timeSpent: 0,
       });
+
       saveTasks();
       renderTasks();
       taskInput.value = "";
@@ -210,13 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (taskContainer && doNowContainer) {
-    initDragDrop(taskContainer);
-    initDragDrop(doNowContainer);
-    renderTasks();
-  }
-
-  
+  // ---------- Runner Logic ----------
   const runnerTaskName = document.getElementById("runnerTaskName");
   const runnerTimer = document.getElementById("runnerTimer");
   const pauseBtn = document.getElementById("pauseBtn");
@@ -344,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startTimer();
   }
 
-  
+  // ---------- Summary ----------
   const summaryContainer = document.getElementById("summary-container");
   if (summaryContainer) {
     const doneTasks = tasks.filter((t) => t.status === "Done");
